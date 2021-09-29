@@ -10,22 +10,6 @@ type Conference {
   status(userEmail: String!): Status
 }
 
-type Type {
-  id: Int!
-  name: String!
-  code: String
-}
-
-type Category {
-  id: Int!
-  name: String!
-  code: String
-}
-
-type Status {
-  id: Int!
-  name: String!
-}
 type Location {
   id: ID!
   name: String
@@ -37,21 +21,6 @@ type Location {
   country: Country!
 }
 
-type City {
-  id: Int!
-  name: String!
-  code: String
-}
-type County {
-  id: Int!
-  name: String!
-  code: String
-}
-type Country {
-  id: Int!
-  name: String!
-  code: String
-}
 type Speaker {
   id: ID!
   name: String
