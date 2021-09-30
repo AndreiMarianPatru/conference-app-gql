@@ -36,7 +36,9 @@ type ConferenceList {
 input ConferenceFilterInput {
   startDate: DateTime
   endDate: DateTime
+  organiserEmail: String
 }
 extend type Query {
   conferenceList(pager: PagerInput!, filters: ConferenceFilterInput): ConferenceList
+  conference(id: ID!): Conference
 }
