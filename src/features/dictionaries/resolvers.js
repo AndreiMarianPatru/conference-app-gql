@@ -4,17 +4,21 @@ const dictionaryResolvers = {
       const typeList = dataSources.dictionaryDb.getTypeList()
       return typeList
     },
-    categoryList: async () => {
-      return []
+    categoryList: async (_parent, _args, { dataSources }, _info) => {
+      const categoryList = dataSources.dictionaryDb.getCategoryList()
+      return categoryList
     },
-    countryList: async () => {
-      return []
+    countryList: async (_parent, _args, { dataSources }, _info) => {
+      const countryList = dataSources.dictionaryDb.getCountryList()
+      return countryList
     },
-    countyList: async () => {
-      return []
+    countyList: async (_parent, _args, { dataSources }, _info) => {
+      const countyList = dataSources.dictionaryDb.getCountyList()
+      return countyList
     },
-    cityList: async () => {
-      return []
+    cityList: async (_parent, _args, { dataSources }, _info) => {
+      const cityList = dataSources.dictionaryDb.getCityList()
+      return cityList
     }
   }
 }
