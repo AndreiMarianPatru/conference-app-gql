@@ -1,4 +1,5 @@
-//const { randomCharacters } = require('../../utils/functions')
+const { randomCharacters } = require('../../utils/functions')
+const status = require('../../utils/constants.js')
 const conferenceResolvers = {
   Query: {
     conferenceList: async (_parent, { pager, filters }, { dataSources }, _info) => {
@@ -34,7 +35,10 @@ const conferenceResolvers = {
       return speakers
     },
     status: async ({ id }, { userEmail }, { dataLoaders }, _info) => {
-      const status = await dataLoaders.statusByConferenceId.load({ id, userEmail })
+      const status = await dataLoaders.statusByConferenceId.load({
+        id,
+        userEmail
+      })
       return status
     }
   },
@@ -50,6 +54,13 @@ const conferenceResolvers = {
     country: async ({ countryId }, _params, { dataLoaders }) => {
       const country = await dataLoaders.countryById.load(countryId)
       return country
+    }
+  },
+  Mutation: {
+    attend: async (_parent, { input }, { dataSources }, _info) => {
+      const updateInput = { ...input, statusId: status.Attended /* Attended */ }
+      const StatusId = await dataSources.conferenceDb.updateConferenceXAttendee(updateInput)
+      return StatusId ? randomCharacters(10) : null
     }
   }
 }
