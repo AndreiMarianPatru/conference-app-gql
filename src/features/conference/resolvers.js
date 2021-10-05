@@ -68,7 +68,27 @@ const conferenceResolvers = {
       const updateInput = { ...input, statusId: status.Withdrawn /* Attended */ }
       const StatusId = await dataSources.conferenceDb.updateConferenceXAttendee(updateInput)
       return StatusId
+    },
+    saveConference: async (_parent, { input }, { dataSources }, _info) => {
+      const location = await dataSources.conferenceDb.updateLocation(input.location)
+      const updateConference = await dataSources.conferenceDb.updateConference(input)
+      const speakers = await Promise.all(
+        input.speakers.map(async speaker => {
+          const updatedSpeaker = await dataSources.conferenceDb.updateSpeaker(speaker)
+          const isMainSpeaker = await dataSources.conferenceDb.updateConferenceXSpeaker({
+            speakerId: updatedSpeaker.id,
+            isMainSpeaker: speaker.isMainSpeaker,
+            conferenceId: updateConference.id
+          })
+          return { ...updatedSpeaker, isMainSpeaker }
+        })
+      )
+
+      input.deletedSpeakers?.length > 0 && (await dataSources.conferenceDb.deleteSpeaker(input.deletedSpeakers))
+
+      return { ...updateConference, location, speakers }
     }
   }
 }
+
 module.exports = conferenceResolvers
