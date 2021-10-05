@@ -67,14 +67,14 @@ class ConferenceDb extends SQLDataSource {
       Address: location.address,
       Latitude: location.latitude,
       Longitude: location.longitude,
-      CityId: location.cityId,
-      CountyId: location.countyId,
-      CountryId: location.countryId
+      CityId: parseInt(location.cityId),
+      CountyId: parseInt(location.countyId),
+      CountryId: parseInt(location.countryId)
     }
     const output = ['Id', 'Name', 'Address', 'Latitude', 'Longitude', 'CityId', 'CountyId', 'CountryId']
     let result
     if (location.id) {
-      result = await this.knex('Location').update(content, output).insert(content)
+      result = await this.knex('Location').update(content, output).where('Id', location.id)
     } else {
       result = await this.knex('Location').returning(output).insert(content)
     }
@@ -125,7 +125,7 @@ class ConferenceDb extends SQLDataSource {
       .first()
 
     let result
-    if (current.id) {
+    if (current?.id) {
       result = await this.knex('ConferenceXSpeaker')
         .update({ IsMainSpeaker: Boolean(isMainSpeaker) }, 'IsMainSpeaker')
         .where('Id', current.id)
