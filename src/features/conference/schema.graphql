@@ -43,11 +43,17 @@ extend type Query {
   conference(id: ID!): Conference
 }
 
+type AttendConference {
+  code: String
+  suggestedConferences: [Conference!]
+}
+
 input Attendee {
   attendeeEmail: String!
   conferenceId: ID!
 }
 
 extend type Mutation {
-  attend(input: Attendee): String
+  attend(input: Attendee!): AttendConference
+  withdraw(input: Attendee!): Int
 }
