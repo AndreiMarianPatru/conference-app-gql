@@ -72,8 +72,13 @@ const conferenceResolvers = {
     join: async (_parent, { input }, { dataSources }, _info) => {
       const updateInput = { ...input, statusId: status.Joined /* Joined */ }
       const StatusId = await dataSources.conferenceDb.updateConferenceXAttendee(updateInput)
-      const data = await dataSources.conferenceDb.getAttendees(input.conferenceId)
-      return data
+      const attendeesEmails = (await dataSources.conferenceDb.getAttendees(input.conferenceId)).map(
+        ({ attendeeEmail }) => attendeeEmail
+      )
+      const organizerEmail = (await dataSources.conferenceDb.getOrganizerEmail(input.conferenceId))
+        .map(({ organizerEmail }) => organizerEmail)
+        .toString()
+      return { attendeesEmails, organizerEmail }
     },
     saveConference: async (_parent, { input }, { dataSources }, _info) => {
       const location = await dataSources.conferenceDb.updateLocation(input.location)
