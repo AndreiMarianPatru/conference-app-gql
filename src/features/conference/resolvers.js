@@ -78,7 +78,9 @@ const conferenceResolvers = {
       const organizerEmail = (await dataSources.conferenceDb.getOrganizerEmail(input.conferenceId))
         .map(({ organizerEmail }) => organizerEmail)
         .toString()
-      return { attendeesEmails, organizerEmail }
+
+      const conference = await dataSources.conferenceDb.getConferenceById(input.conferenceId)
+      return { attendeesEmails, organizerEmail, conference }
     },
     saveConference: async (_parent, { input }, { dataSources }, _info) => {
       const location = await dataSources.conferenceDb.updateLocation(input.location)

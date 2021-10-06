@@ -97,6 +97,7 @@ input ConferenceInput {
 type JoinedData {
   attendeesEmails: [String]!
   organizerEmail: String!
+  conference: Conference
 }
 
 extend type Mutation {
