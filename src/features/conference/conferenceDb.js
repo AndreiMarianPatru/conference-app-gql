@@ -141,6 +141,11 @@ class ConferenceDb extends SQLDataSource {
     await this.knex('ConferenceXSpeaker').whereIn('SpeakerId', speakerIds).del()
     await this.knex('Speaker').whereIn('Id', speakerIds).del()
   }
+
+  async getAttendees(id) {
+    const result = await this.knex('ConferenceXAttendee').select('AttendeeEmail').where('ConferenceId', id)
+    return result
+  }
 }
 
 module.exports = ConferenceDb

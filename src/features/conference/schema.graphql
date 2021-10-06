@@ -38,6 +38,10 @@ input ConferenceFilterInput {
   endDate: DateTime
   organiserEmail: String
 }
+
+type XAttendee {
+  attendeeEmail: String!
+}
 extend type Query {
   conferenceList(pager: PagerInput!, filters: ConferenceFilterInput): ConferenceList
   conference(id: ID!): Conference
@@ -97,4 +101,5 @@ extend type Mutation {
   attend(input: Attendee!): AttendConference
   withdraw(input: Attendee!): Int
   saveConference(input: ConferenceInput!): Conference!
+  join(input: Attendee!): [XAttendee]!
 }

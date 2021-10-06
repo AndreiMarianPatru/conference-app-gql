@@ -69,6 +69,12 @@ const conferenceResolvers = {
       const StatusId = await dataSources.conferenceDb.updateConferenceXAttendee(updateInput)
       return StatusId
     },
+    join: async (_parent, { input }, { dataSources }, _info) => {
+      const updateInput = { ...input, statusId: status.Joined /* Joined */ }
+      const StatusId = await dataSources.conferenceDb.updateConferenceXAttendee(updateInput)
+      const data = await dataSources.conferenceDb.getAttendees(input.conferenceId)
+      return data
+    },
     saveConference: async (_parent, { input }, { dataSources }, _info) => {
       const location = await dataSources.conferenceDb.updateLocation(input.location)
       const updateConference = await dataSources.conferenceDb.updateConference({ ...input, location })
