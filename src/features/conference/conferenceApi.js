@@ -9,8 +9,14 @@ class ConferenceApi extends RESTDataSource {
 
   async getConferenceSuggestions(input) {
     const { conferenceId, attendeeEmail } = input
+
+    //const url = "http://localhost:5001/api/suggestions/List?AttendeeEmail=${attendeeEmail}&ConferenceId=${conferenceId}";
+    // eslint-disable-next-line no-undef
+
+    const data = await this.get('suggestions/list', { conferenceId, attendeeEmail })
     // return await this.get('suggestions/list',{conferenceId,attendeeEmail})
-    return suggestedConferences
+    return await this.get('suggestions/list', { conferenceId, attendeeEmail })
+    //return suggestedConferences
   }
 }
 module.exports = ConferenceApi
